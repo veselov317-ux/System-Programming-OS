@@ -32,11 +32,15 @@ jobs:
 
 
       
-      - name: Prepare RPM directories
+      - name: Prepare RPM directories and archive
         run: |
           mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
           cp rpm/script.spec ~/rpmbuild/SPECS/
-          tar czf ~/rpmbuild/SOURCES/script.tar.gz -C src task1.sh
+          mkdir script-1.0
+          cp src/task1.sh script-1.0/
+          tar czf ~/rpmbuild/SOURCES/script.tar.gz script-1.0
+    
+          rm -rf script-1.0
 
       
       - name: Build .rpm package
