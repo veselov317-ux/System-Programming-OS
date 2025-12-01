@@ -26,8 +26,9 @@ jobs:
           mkdir -p ~/build_deb/script-1.0-1.el8.noarch/DEBIAN
           cp debian/control ~/build_deb/script-1.0-1.el8.noarch/DEBIAN/control
           mkdir -p ~/build_deb/script-1.0-1.el8.noarch/usr/bin
-          cp src/task1 ~/build_deb/script-1.0-1.el8.noarch/usr/bin/task1.sh
-          chmod 755 ~/build_deb/script-1.0-1.el8.noarch/usr/bin/task1.sh
+          cp src/task1 ~/build_deb/script-1.0-1.el8.noarch/usr/bin/task1
+          chmod 755 ~/build_deb/script-1.0-1.el8.noarch/usr/bin/task1
+          ls -lR ~/build_deb/script-1.0-1.el8.noarch
           dpkg-deb --build ~/build_deb/script-1.0-1.el8.noarch
 
       
