@@ -26,8 +26,8 @@ jobs:
           mkdir -p ~/build_deb/script-1.0-1.el8.noarch/DEBIAN
           cp debian/control ~/build_deb/script-1.0-1.el8.noarch/DEBIAN/control
           mkdir -p ~/build_deb/script-1.0-1.el8.noarch/usr/bin
-          cp src/task1 ~/build_deb/script-1.0-1.el8.noarch/usr/bin/task1
-          chmod 755 ~/build_deb/script-1.0-1.el8.noarch/usr/bin/task1
+          cp src/task1 ~/build_deb/script-1.0-1.el8.noarch/usr/bin/task1.sh
+          chmod 755 ~/build_deb/script-1.0-1.el8.noarch/usr/bin/task1.sh
           dpkg-deb --build ~/build_deb/script-1.0-1.el8.noarch
 
       
@@ -35,7 +35,7 @@ jobs:
         run: |
           mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
           cp rpm/script.spec ~/rpmbuild/SPECS/
-          tar czf ~/rpmbuild/SOURCES/script.tar.gz -C src task1
+          tar czf ~/rpmbuild/SOURCES/script.tar.gz -C src/task1.sh
 
       
       - name: Build .rpm package
