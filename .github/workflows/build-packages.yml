@@ -18,7 +18,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y rpm dpkg-dev build-essential fakeroot
 
-      
+     
       - name: Build .deb package
         run: |
           mkdir -p build/deb/yourpackage/DEBIAN
@@ -26,29 +26,29 @@ jobs:
           # control лежит в debian/control
           cp debian/control build/deb/yourpackage/DEBIAN/control
           
-          
+          # task1 лежит в src/task1
           mkdir -p build/deb/yourpackage/usr/bin
-          cp task1 build/deb/yourpackage/usr/bin/task1
+          cp src/task1 build/deb/yourpackage/usr/bin/task1
           chmod 755 build/deb/yourpackage/usr/bin/task1
           
           dpkg-deb --build build/deb/yourpackage
 
-      
+     
       - name: Prepare RPM directories
         run: |
           mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
           
-          # SPEC лежит в rpm/script.spec
+          # spec лежит в rpm/script.spec
           cp rpm/script.spec ~/rpmbuild/SPECS/
           
-          # упаковываем task1 из корня
-          tar czf ~/rpmbuild/SOURCES/script.tar.gz task1
+          # в архив кладём task1 из src/
+          tar czf ~/rpmbuild/SOURCES/script.tar.gz -C src task1
 
       - name: Build .rpm package
         run: |
           rpmbuild -ba ~/rpmbuild/SPECS/script.spec
 
-     
+      
       - name: Upload DEB artifact
         uses: actions/upload-artifact@v4
         with:
