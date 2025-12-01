@@ -1,0 +1,7 @@
+Package:script
+Version:1.0-1
+Section:utils
+Priority:optional
+Architecture:all
+Maintainer:veselov317-ux <veselov317@gmail.com>
+Description:Simple script packaged as a DEB package.This package installs the script task1 into /usr/bin
