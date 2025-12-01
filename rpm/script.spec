@@ -8,7 +8,7 @@ BuildArch: noarch
 %description
 Packed automatically script.
 %prep
-%setup -q -n task1 --source0=0
+%setup -q 
 %build
 %install
 mkdir -p %{buildroot}/usr/bin
