@@ -23,23 +23,26 @@ jobs:
         run: |
           mkdir -p build/deb/yourpackage/DEBIAN
           
-          
+          # control лежит в debian/control
           cp debian/control build/deb/yourpackage/DEBIAN/control
           
           
           mkdir -p build/deb/yourpackage/usr/bin
-          cp src/task1 build/deb/yourpackage/usr/bin/task1
+          cp task1 build/deb/yourpackage/usr/bin/task1
           chmod 755 build/deb/yourpackage/usr/bin/task1
           
-         
           dpkg-deb --build build/deb/yourpackage
 
       
       - name: Prepare RPM directories
         run: |
           mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+          
+          # SPEC лежит в rpm/script.spec
           cp rpm/script.spec ~/rpmbuild/SPECS/
-          tar czf ~/rpmbuild/SOURCES/script.tar.gz -C src task1
+          
+          # упаковываем task1 из корня
+          tar czf ~/rpmbuild/SOURCES/script.tar.gz task1
 
       - name: Build .rpm package
         run: |
@@ -56,5 +59,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rpm-package
-          path: ~/rpmbuild/RPMS/**/**/*.rpm
-
+          path: ~/rpmbuild/RPMS/**/*.rpm
