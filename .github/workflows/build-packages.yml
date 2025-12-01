@@ -21,15 +21,15 @@ jobs:
      
       - name: Build .deb package
         run: |
-          mkdir -p build/deb/yourpackage/DEBIAN
+          mkdir -p build_deb/script-1.0-1.el8.noarch/DEBIAN
           
           
-          cp debian/control build/deb/yourpackage/DEBIAN/control
+          cp debian/control build_deb/script-1.0-1.el8.noarch/DEBIAN/control
           
           
-          mkdir -p build/deb/yourpackage/usr/bin
-          cp src/task1 build/deb/yourpackage/usr/bin/task1
-          chmod 755 build/deb/yourpackage/usr/bin/task1
+          mkdir -p build_deb/script-1.0-1.el8.noarch/usr/bin
+          cp src/task1 build_deb/script-1.0-1.el8.noarch/usr/bin/task1
+          chmod 755 build_deb/script-1.0-1.el8.noarch/usr/bin/task1
           
           dpkg-deb --build build/deb/yourpackage
 
