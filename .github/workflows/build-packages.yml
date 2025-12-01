@@ -37,11 +37,9 @@ jobs:
           mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
           cp rpm/script.spec ~/rpmbuild/SPECS/
           mkdir script-1.0
-          cp src/task1.sh script-1.0/
+          cp src/task1.sh script-1.0/task1  
           tar czf ~/rpmbuild/SOURCES/script.tar.gz script-1.0
-    
           rm -rf script-1.0
-
       
       - name: Build .rpm package
         run: |
