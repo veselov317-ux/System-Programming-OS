@@ -10,50 +10,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      
       - name: Install dependencies for DEB & RPM
         run: |
           sudo apt-get update
           sudo apt-get install -y rpm dpkg-dev build-essential fakeroot
 
-     
+      
       - name: Build .deb package
         run: |
-          mkdir -p build_deb/script-1.0-1.el8.noarch/DEBIAN
-          
-          
-          cp debian/control build_deb/script-1.0-1.el8.noarch/DEBIAN/control
-          
-          
-          mkdir -p build_deb/script-1.0-1.el8.noarch/usr/bin
-          cp src/task1 build_deb/script-1.0-1.el8.noarch/usr/bin/task1
-          chmod 755 build_deb/script-1.0-1.el8.noarch/usr/bin/task1
-          
-          dpkg-deb --build build/deb/yourpackage
+          mkdir -p ~/build_deb/script-1.0-1.el8.noarch/DEBIAN
+          cp debian/control ~/build_deb/script-1.0-1.el8.noarch/DEBIAN/control
+          mkdir -p ~/build_deb/script-1.0-1.el8.noarch/usr/bin
+          cp src/task1 ~/build_deb/script-1.0-1.el8.noarch/usr/bin/task1
+          chmod 755 ~/build_deb/script-1.0-1.el8.noarch/usr/bin/task1
+          dpkg-deb --build ~/build_deb/script-1.0-1.el8.noarch
 
-     
+      
       - name: Prepare RPM directories
         run: |
           mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-          
-          # spec лежит в rpm/script.spec
           cp rpm/script.spec ~/rpmbuild/SPECS/
-          
-          # в архив кладём task1 из src/
           tar czf ~/rpmbuild/SOURCES/script.tar.gz -C src task1
 
+      
       - name: Build .rpm package
         run: |
           rpmbuild -ba ~/rpmbuild/SPECS/script.spec
 
-      
+    
       - name: Upload DEB artifact
         uses: actions/upload-artifact@v4
         with:
           name: deb-package
-          path: build/deb/*.deb
+          path: ~/build_deb/*.deb
 
       - name: Upload RPM artifact
         uses: actions/upload-artifact@v4
