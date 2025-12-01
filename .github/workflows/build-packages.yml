@@ -1,1 +1,60 @@
+name: Build DEB and RPM Packages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies for DEB & RPM
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rpm dpkg-dev build-essential fakeroot
+
+      
+      - name: Build .deb package
+        run: |
+          mkdir -p build/deb/yourpackage/DEBIAN
+          
+          
+          cp debian/control build/deb/yourpackage/DEBIAN/control
+          
+          
+          mkdir -p build/deb/yourpackage/usr/bin
+          cp src/task1 build/deb/yourpackage/usr/bin/task1
+          chmod 755 build/deb/yourpackage/usr/bin/task1
+          
+         
+          dpkg-deb --build build/deb/yourpackage
+
+      
+      - name: Prepare RPM directories
+        run: |
+          mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+          cp rpm/script.spec ~/rpmbuild/SPECS/
+          tar czf ~/rpmbuild/SOURCES/script.tar.gz -C src task1
+
+      - name: Build .rpm package
+        run: |
+          rpmbuild -ba ~/rpmbuild/SPECS/script.spec
+
+     
+      - name: Upload DEB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deb-package
+          path: build/deb/*.deb
+
+      - name: Upload RPM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rpm-package
+          path: ~/rpmbuild/RPMS/**/**/*.rpm
 
