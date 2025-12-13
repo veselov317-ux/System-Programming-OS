@@ -1,3 +1,12 @@
 #!/bin/bash
-count=$(find /etc -type f 2>/dev/null | wc -l)
-echo "Number of regular files in etc: $count"
+
+TARGET_DIR="/etc"
+FILE_COUNT=0
+
+for item in "$TARGET_DIR"/*; do
+    if [ -f "$item" ] && [ ! -L "$item" ]; then
+        FILE_COUNT=$((FILE_COUNT + 1))
+    fi
+done
+
+echo "Number of regular files in /etc: $FILE_COUNT"
